@@ -250,11 +250,20 @@ namespace SolutionPackager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connecting and getting managed solution.
+        /// </summary>
+        public static string Message_ConnectingGettingManagedSolution {
+            get {
+                return ResourceManager.GetString("Message_ConnectingGettingManagedSolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connecting and getting unmanaged solution.
         /// </summary>
-        public static string Message_ConnectingGettingUnmanaegedSolution {
+        public static string Message_ConnectingGettingUnmanagedSolution {
             get {
-                return ResourceManager.GetString("Message_ConnectingGettingUnmanaegedSolution", resourceCulture);
+                return ResourceManager.GetString("Message_ConnectingGettingUnmanagedSolution", resourceCulture);
             }
         }
         
@@ -313,6 +322,15 @@ namespace SolutionPackager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retrieved managed solution.
+        /// </summary>
+        public static string Message_RetrievedManagedSolution {
+            get {
+                return ResourceManager.GetString("Message_RetrievedManagedSolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retrieved solution.
         /// </summary>
         public static string Message_RetrievedSolution {
@@ -327,6 +345,15 @@ namespace SolutionPackager.Resources {
         public static string Message_RetrievedSolutions {
             get {
                 return ResourceManager.GetString("Message_RetrievedSolutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retrieved unmanaged solution.
+        /// </summary>
+        public static string Message_RetrievedUnmanagedSolution {
+            get {
+                return ResourceManager.GetString("Message_RetrievedUnmanagedSolution", resourceCulture);
             }
         }
         

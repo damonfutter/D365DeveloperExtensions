@@ -3,6 +3,7 @@
     public enum SolutionType
     {
         Unmanaged,
-        Managed
+        Managed,
+        Both
     }
 }

@@ -97,8 +97,10 @@ namespace SolutionPackager.Crm
                     SolutionName = selectedSolution.UniqueName
                 };
                 ExportSolutionResponse response = await Task.Run(() => (ExportSolutionResponse)client.Execute(request));
-
-                OutputLogger.WriteToOutputWindow(Resource.Message_RetrievedSolution, MessageType.Info);
+                
+                OutputLogger.WriteToOutputWindow(
+                    managed ? Resource.Message_RetrievedManagedSolution : Resource.Message_RetrievedUnmanagedSolution,
+                    MessageType.Info);
 
                 string fileName = FileHandler.FormatSolutionVersionString(selectedSolution.UniqueName, selectedSolution.Version, managed);
                 string tempFile = FileHandler.WriteTempFile(fileName, response.ExportSolutionFile);

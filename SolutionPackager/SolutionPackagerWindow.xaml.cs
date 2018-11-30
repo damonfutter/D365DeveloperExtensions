@@ -397,9 +397,7 @@ namespace SolutionPackager
                 packagepath = PackageFolder.SelectedItem?.ToString().Replace("/", String.Empty) ?? "",
                 profile = ConnPane.SelectedProfile,
                 solutionpath = SolutionName.Text,
-                packagetype = (SolutionType)PackageType.SelectedItem == SolutionType.Unmanaged
-                    ? SolutionType.Unmanaged.ToString().ToLower()
-                    : SolutionType.Managed.ToString().ToLower(),
+                packagetype = ((SolutionType)PackageType.SelectedItem).ToString().ToLowerInvariant(),
                 solution_uniquename = ((CrmSolution)SolutionList.SelectedItem).UniqueName,
                 localize = (bool)Localize.IsChecked
             };
@@ -611,10 +609,9 @@ namespace SolutionPackager
 
         private async void UnpackageProcess()
         {
+            const bool MANAGED = true;
             try
             {
-                Overlay.ShowMessage(_dte, $"{Resource.Message_ConnectingGettingUnmanaegedSolution}...", vsStatusAnimation.vsStatusAnimationSync);
-
                 string toolPath = Packager.CreateToolPath();
                 if (string.IsNullOrEmpty(toolPath))
                 {
@@ -623,17 +620,37 @@ namespace SolutionPackager
                 }
 
                 UnpackSettings unpackSettings = GetValuesForUnpack();
+                string message = unpackSettings.SolutionPackageConfig.packagetype == "managed" ?
+                    Resource.Message_ConnectingGettingManagedSolution :
+                    Resource.Message_ConnectingGettingUnmanagedSolution;
+                Overlay.ShowMessage(_dte, $"{message}...", vsStatusAnimation.vsStatusAnimationSync);
 
-                List<Task> tasks = new List<Task>();
-                var getSolution = Crm.Solution.GetSolutionFromCrm(ConnPane.CrmService,
-                    unpackSettings.CrmSolution, unpackSettings.SolutionPackageConfig.packagetype == "managed");
-                tasks.Add(getSolution);
+                // N.B. I tested two different ways of doing this:
+                // 1 - await each task individually
+                // 2 - await a list containing both tasks
+                // Both methods took approximately the same time, so I've gone with the lower risk way of running them one at a time.
+                var getSolution = Crm.Solution.GetSolutionFromCrm(
+                    ConnPane.CrmService,
+                    unpackSettings.CrmSolution,
+                    unpackSettings.SolutionPackageConfig.packagetype == "managed");
+                await getSolution;
 
-                await Task.WhenAll(tasks);
+                // If unpack is for 'both' then we need also need to extract the managed solution
+                Task<string> getSecondSolution = null;
+                if (unpackSettings.SolutionPackageConfig.packagetype == "both")
+                {
+                    Overlay.ShowMessage(_dte, $"{Resource.Message_ConnectingGettingManagedSolution}...", vsStatusAnimation.vsStatusAnimationSync);
+                    getSecondSolution = Crm.Solution.GetSolutionFromCrm(
+                        ConnPane.CrmService,
+                        unpackSettings.CrmSolution,
+                        MANAGED);
+                    await getSecondSolution;
+                }
 
                 unpackSettings.DownloadedZipPath = getSolution.Result;
 
-                if (string.IsNullOrEmpty(getSolution.Result))
+                if (string.IsNullOrEmpty(getSolution.Result)
+                    || (getSecondSolution != null && string.IsNullOrEmpty(getSecondSolution.Result)))
                 {
                     MessageBox.Show(Resource.ErrorMessage_ErrorRetrievingSolution);
                     return;

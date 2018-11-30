@@ -264,11 +264,20 @@
   <data name="ErrorMessage_ErrorCreatingCommandArguments" xml:space="preserve">
     <value>Error creating command arguments</value>
   </data>
-  <data name="Message_ConnectingGettingUnmanaegedSolution" xml:space="preserve">
+  <data name="Message_ConnectingGettingUnmanagedSolution" xml:space="preserve">
     <value>Connecting and getting unmanaged solution</value>
+  </data>
+  <data name="Message_ConnectingGettingManagedSolution" xml:space="preserve">
+    <value>Connecting and getting managed solution</value>
   </data>
   <data name="Message_RetrievedSolution" xml:space="preserve">
     <value>Retrieved solution</value>
+  </data>
+  <data name="Message_RetrievedManagedSolution" xml:space="preserve">
+    <value>Retrieved managed solution</value>
+  </data>
+  <data name="Message_RetrievedUnmanagedSolution" xml:space="preserve">
+    <value>Retrieved unmanaged solution</value>
   </data>
   <data name="Message_ExtractingSolution" xml:space="preserve">
     <value>Extracting solution</value>
