@@ -493,6 +493,15 @@ namespace SolutionPackager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Localize?.
+        /// </summary>
+        public static string SolutionPackager_LocalizeLabel_Label_Content {
+            get {
+                return ResourceManager.GetString("SolutionPackager_LocalizeLabel_Label_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Package Folder.
         /// </summary>
         public static string SolutionPackager_PackageFolderLabel_Label_Content {

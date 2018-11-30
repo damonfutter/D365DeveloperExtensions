@@ -44,6 +44,7 @@ namespace SolutionPackager.Config
                     existingSolutionPackageConfig.packagepath = solutionPackageConfig.packagepath.Replace("/", string.Empty);
                     existingSolutionPackageConfig.solution_uniquename = solutionPackageConfig.solution_uniquename;
                     existingSolutionPackageConfig.solutionpath = FormatSolutionName(solutionPackageConfig.solutionpath);
+                    existingSolutionPackageConfig.localize = solutionPackageConfig.localize;
                 }
             }
 

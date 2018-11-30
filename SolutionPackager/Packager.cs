@@ -254,6 +254,11 @@ namespace SolutionPackager
             command.Append($" /zipfile: \"{Path.Combine(packSettings.ProjectSolutionFolder, packSettings.FileName)}\"");
             command.Append($" /folder: \"{packSettings.ProjectPackageFolder}\"");
 
+            if (packSettings.Localize)
+            {
+                command.Append(" /localize");
+            }
+
             // Add a mapping file which should be in the root folder of the project and be named mapping.xml
             if (packSettings.SolutionPackageConfig.map != null && packSettings.UseMapFile)
             {
@@ -279,6 +284,11 @@ namespace SolutionPackager
             command.Append($" /zipfile: \"{unpackSettings.DownloadedZipPath}\"");
             command.Append($" /folder: \"{unpackSettings.ExtractedFolder.FullName}\"");
             command.Append(" /clobber");
+
+            if (unpackSettings.Localize)
+            {
+                command.Append(" /localize");
+            }
 
             // Add a mapping file which should be in the root folder of the project and be named mapping.xml
             if (unpackSettings.SolutionPackageConfig.map != null && unpackSettings.UseMapFile)

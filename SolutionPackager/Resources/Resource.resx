@@ -306,4 +306,7 @@
   <data name="SolutionPackager_UseMapFileLabel_Label_Content" xml:space="preserve">
     <value>Use Map File?</value>
   </data>
+  <data name="SolutionPackager_LocalizeLabel_Label_Content" xml:space="preserve">
+    <value>Localize?</value>
+  </data>
 </root>

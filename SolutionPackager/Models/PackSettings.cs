@@ -21,5 +21,6 @@ namespace SolutionPackager.Models
         public string FullFilePath { get; set; }
         public Version Version { get; set; }
         public bool UseMapFile { get; set; }
+        public bool Localize { get; set; }
     }
 }

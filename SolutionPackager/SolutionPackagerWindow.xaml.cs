@@ -221,6 +221,7 @@ namespace SolutionPackager
             PackageType.IsEnabled = enabled;
             EnableSolutionPackagerLog.IsEnabled = enabled;
             UseMapFile.IsEnabled = enabled;
+            Localize.IsEnabled = enabled;
             SolutionName.IsEnabled = enabled;
             VersionMajor.IsEnabled = enabled;
             VersionMinor.IsEnabled = enabled;
@@ -287,6 +288,7 @@ namespace SolutionPackager
             PackageType.SelectedItem = PackageTypes.FirstOrDefault(s => s.ToString().Equals(solutionPackageConfig.packagetype,
                 StringComparison.InvariantCultureIgnoreCase));
             SolutionName.Text = SetSolutionName(solutionPackageConfig);
+            Localize.IsChecked = solutionPackageConfig.localize;
 
             PackageSolution.IsEnabled = SolutionXml.SolutionXmlExists(ConnPane.SelectedProject, projectFolder);
             if (PackageSolution.IsEnabled)
@@ -398,7 +400,8 @@ namespace SolutionPackager
                 packagetype = (SolutionType)PackageType.SelectedItem == SolutionType.Unmanaged
                     ? SolutionType.Unmanaged.ToString().ToLower()
                     : SolutionType.Managed.ToString().ToLower(),
-                solution_uniquename = ((CrmSolution)SolutionList.SelectedItem).UniqueName
+                solution_uniquename = ((CrmSolution)SolutionList.SelectedItem).UniqueName,
+                localize = (bool)Localize.IsChecked
             };
         }
 
@@ -408,13 +411,18 @@ namespace SolutionPackager
             PackageFolder.SelectionChanged += TriggerMappingUpdate;
             PackageType.SelectionChanged += TriggerMappingUpdate;
             SolutionName.TextChanged += TriggerMappingUpdate;
+            Localize.Checked += TriggerMappingUpdate;
+            Localize.Unchecked += TriggerMappingUpdate;
         }
+
         private void RemoveEventHandlers()
         {
             SolutionList.SelectionChanged -= SolutionList_OnSelectionChanged;
             PackageFolder.SelectionChanged -= TriggerMappingUpdate;
             PackageType.SelectionChanged -= TriggerMappingUpdate;
             SolutionName.TextChanged -= TriggerMappingUpdate;
+            Localize.Checked -= TriggerMappingUpdate;
+            Localize.Unchecked -= TriggerMappingUpdate;
         }
 
         private void SolutionList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -518,7 +526,8 @@ namespace SolutionPackager
                 SolutionFolder = SolutionFolder.SelectedItem.ToString(),
                 ProjectPath = ProjectWorker.GetProjectPath(ConnPane.SelectedProject),
                 PackageFolder = PackageFolder.SelectedItem?.ToString() ?? "/",
-                UseMapFile = UseMapFile.ReturnValue()
+                UseMapFile = UseMapFile.ReturnValue(),
+                Localize = Localize.ReturnValue()
             };
 
             packSettings.Version =
@@ -551,7 +560,8 @@ namespace SolutionPackager
                 SaveSolutions = SaveSolutions.ReturnValue(),
                 SolutionFolder = SolutionFolder.SelectedItem.ToString(),
                 PackageFolder = PackageFolder.SelectedItem?.ToString() ?? "/",
-                UseMapFile = UseMapFile.ReturnValue()
+                UseMapFile = UseMapFile.ReturnValue(),
+                Localize = Localize.ReturnValue()
             };
 
             unpackSettings.ProjectPackageFolder = Path.Combine(unpackSettings.ProjectPath,

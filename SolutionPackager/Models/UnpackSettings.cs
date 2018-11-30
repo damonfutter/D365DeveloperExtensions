@@ -20,5 +20,6 @@ namespace SolutionPackager.Models
         public string DownloadedZipPath { get; set; }
         public DirectoryInfo ExtractedFolder { get; set; }
         public bool UseMapFile { get; set; }
+        public bool Localize { get; set; }
     }
 }

@@ -54,6 +54,7 @@ namespace D365DeveloperExtensions.Core.Models
         public string packagetype { get; set; }
         public bool increment_on_import { get; set; }
         public List<SolutionPackageMap> map { get; set; }
+        public bool localize { get; set; }
     }
 
     public class SolutionPackageMap
