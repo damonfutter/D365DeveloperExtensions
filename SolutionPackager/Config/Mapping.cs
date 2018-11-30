@@ -45,6 +45,8 @@ namespace SolutionPackager.Config
                     existingSolutionPackageConfig.solution_uniquename = solutionPackageConfig.solution_uniquename;
                     existingSolutionPackageConfig.solutionpath = FormatSolutionName(solutionPackageConfig.solutionpath);
                     existingSolutionPackageConfig.localize = solutionPackageConfig.localize;
+                    existingSolutionPackageConfig.sortLocalizedStrings = solutionPackageConfig.sortLocalizedStrings;
+                    existingSolutionPackageConfig.standardizeObjectTypeCodes = solutionPackageConfig.standardizeObjectTypeCodes;
                 }
             }
 

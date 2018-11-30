@@ -159,6 +159,10 @@
     <Compile Include="ModelBuilder.cs" />
     <Compile Include="Models\SolutionPackagerCommand.cs" />
     <Compile Include="Packager.cs" />
+    <Compile Include="PostUnpack\FileEnumerator.cs" />
+    <Compile Include="PostUnpack\IDocFixer.cs" />
+    <Compile Include="PostUnpack\LocalizedStringSorter.cs" />
+    <Compile Include="PostUnpack\ObjectTypeCodeFixer.cs" />
     <Compile Include="ProjectFolderHelper.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>

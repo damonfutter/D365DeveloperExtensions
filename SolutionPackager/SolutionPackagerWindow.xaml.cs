@@ -222,6 +222,8 @@ namespace SolutionPackager
             EnableSolutionPackagerLog.IsEnabled = enabled;
             UseMapFile.IsEnabled = enabled;
             Localize.IsEnabled = enabled;
+            SortLocalizedStrings.IsEnabled = enabled;
+            StandardizeObjectTypeCodes.IsEnabled = enabled;
             SolutionName.IsEnabled = enabled;
             VersionMajor.IsEnabled = enabled;
             VersionMinor.IsEnabled = enabled;
@@ -289,6 +291,8 @@ namespace SolutionPackager
                 StringComparison.InvariantCultureIgnoreCase));
             SolutionName.Text = SetSolutionName(solutionPackageConfig);
             Localize.IsChecked = solutionPackageConfig.localize;
+            SortLocalizedStrings.IsChecked = solutionPackageConfig.sortLocalizedStrings;
+            StandardizeObjectTypeCodes.IsChecked = solutionPackageConfig.standardizeObjectTypeCodes;
 
             PackageSolution.IsEnabled = SolutionXml.SolutionXmlExists(ConnPane.SelectedProject, projectFolder);
             if (PackageSolution.IsEnabled)
@@ -399,7 +403,9 @@ namespace SolutionPackager
                 solutionpath = SolutionName.Text,
                 packagetype = ((SolutionType)PackageType.SelectedItem).ToString().ToLowerInvariant(),
                 solution_uniquename = ((CrmSolution)SolutionList.SelectedItem).UniqueName,
-                localize = (bool)Localize.IsChecked
+                localize = (bool)Localize.IsChecked,
+                sortLocalizedStrings = (bool)SortLocalizedStrings.IsChecked,
+                standardizeObjectTypeCodes = (bool)StandardizeObjectTypeCodes.IsChecked
             };
         }
 
@@ -411,6 +417,10 @@ namespace SolutionPackager
             SolutionName.TextChanged += TriggerMappingUpdate;
             Localize.Checked += TriggerMappingUpdate;
             Localize.Unchecked += TriggerMappingUpdate;
+            SortLocalizedStrings.Checked += TriggerMappingUpdate;
+            SortLocalizedStrings.Unchecked += TriggerMappingUpdate;
+            StandardizeObjectTypeCodes.Checked += TriggerMappingUpdate;
+            StandardizeObjectTypeCodes.Unchecked += TriggerMappingUpdate;
         }
 
         private void RemoveEventHandlers()
@@ -421,6 +431,10 @@ namespace SolutionPackager
             SolutionName.TextChanged -= TriggerMappingUpdate;
             Localize.Checked -= TriggerMappingUpdate;
             Localize.Unchecked -= TriggerMappingUpdate;
+            SortLocalizedStrings.Checked -= TriggerMappingUpdate;
+            SortLocalizedStrings.Unchecked -= TriggerMappingUpdate;
+            StandardizeObjectTypeCodes.Checked -= TriggerMappingUpdate;
+            StandardizeObjectTypeCodes.Unchecked -= TriggerMappingUpdate;
         }
 
         private void SolutionList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -559,7 +573,9 @@ namespace SolutionPackager
                 SolutionFolder = SolutionFolder.SelectedItem.ToString(),
                 PackageFolder = PackageFolder.SelectedItem?.ToString() ?? "/",
                 UseMapFile = UseMapFile.ReturnValue(),
-                Localize = Localize.ReturnValue()
+                Localize = Localize.ReturnValue(),
+                SortLocalizedStrings = SortLocalizedStrings.ReturnValue(),
+                StandardizeObjectTypeCodes = StandardizeObjectTypeCodes.ReturnValue()
             };
 
             unpackSettings.ProjectPackageFolder = Path.Combine(unpackSettings.ProjectPath,
@@ -662,6 +678,27 @@ namespace SolutionPackager
 
                 if (!success)
                     MessageBox.Show(Resource.MessageBox_ErrorExtractingSolution);
+
+                var fixers = new List<PostUnpack.IDocFixer>();
+                if (unpackSettings.Localize && unpackSettings.SortLocalizedStrings)
+                {
+                    fixers.Add(new PostUnpack.LocalizedStringSorter());
+                }
+
+                if (unpackSettings.StandardizeObjectTypeCodes)
+                {
+                    fixers.Add(new PostUnpack.ObjectTypeCodeFixer());
+                }
+
+                if (fixers.Count > 0)
+                {
+                    OutputLogger.WriteToOutputWindow($"{Resource.Message_Begin} {Resource.Message_PostProcessingFiles}", MessageType.Info);
+                    Overlay.ShowMessage(_dte, $"{Resource.Message_PostProcessingFiles}...");
+
+                    var fileEnum = new PostUnpack.FileEnumerator(fixers);
+                    fileEnum.FixAllFiles(unpackSettings.ProjectPackageFolder);
+                    OutputLogger.WriteToOutputWindow($"{Resource.Message_End} {Resource.Message_PostProcessingFiles}", MessageType.Info);
+                }
 
                 _dte.ExecuteCommand("File.SaveAll");
 

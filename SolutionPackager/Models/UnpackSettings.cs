@@ -21,5 +21,7 @@ namespace SolutionPackager.Models
         public DirectoryInfo ExtractedFolder { get; set; }
         public bool UseMapFile { get; set; }
         public bool Localize { get; set; }
+        public bool SortLocalizedStrings { get; set; }
+        public bool StandardizeObjectTypeCodes { get; set; }
     }
 }

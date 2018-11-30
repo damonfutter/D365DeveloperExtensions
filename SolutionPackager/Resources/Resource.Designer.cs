@@ -313,6 +313,15 @@ namespace SolutionPackager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Post-processing unpacked files.
+        /// </summary>
+        public static string Message_PostProcessingFiles {
+            get {
+                return ResourceManager.GetString("Message_PostProcessingFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publishing customizations.
         /// </summary>
         public static string Message_PublishingCustomizations {
@@ -615,6 +624,24 @@ namespace SolutionPackager.Resources {
         public static string SolutionPackager_SolutionsLabel_Label_Content {
             get {
                 return ResourceManager.GetString("SolutionPackager_SolutionsLabel_Label_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort Localized Strings?.
+        /// </summary>
+        public static string SolutionPackager_SortLocalizedStrings_Label_Content {
+            get {
+                return ResourceManager.GetString("SolutionPackager_SortLocalizedStrings_Label_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standardize Object Type Codes?.
+        /// </summary>
+        public static string SolutionPackager_StandardizeObjectTypeCodes_Label_Content {
+            get {
+                return ResourceManager.GetString("SolutionPackager_StandardizeObjectTypeCodes_Label_Content", resourceCulture);
             }
         }
         
