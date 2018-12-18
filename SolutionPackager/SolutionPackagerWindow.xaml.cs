@@ -293,6 +293,7 @@ namespace SolutionPackager
             Localize.IsChecked = solutionPackageConfig.localize;
             SortLocalizedStrings.IsChecked = solutionPackageConfig.sortLocalizedStrings;
             StandardizeObjectTypeCodes.IsChecked = solutionPackageConfig.standardizeObjectTypeCodes;
+            UseMapFile.IsChecked = solutionPackageConfig.useMapFile;
 
             PackageSolution.IsEnabled = SolutionXml.SolutionXmlExists(ConnPane.SelectedProject, projectFolder);
             if (PackageSolution.IsEnabled)
@@ -405,7 +406,8 @@ namespace SolutionPackager
                 solution_uniquename = ((CrmSolution)SolutionList.SelectedItem).UniqueName,
                 localize = (bool)Localize.IsChecked,
                 sortLocalizedStrings = (bool)SortLocalizedStrings.IsChecked,
-                standardizeObjectTypeCodes = (bool)StandardizeObjectTypeCodes.IsChecked
+                standardizeObjectTypeCodes = (bool)StandardizeObjectTypeCodes.IsChecked,
+                useMapFile = (bool)UseMapFile.IsChecked
             };
         }
 
@@ -421,6 +423,8 @@ namespace SolutionPackager
             SortLocalizedStrings.Unchecked += TriggerMappingUpdate;
             StandardizeObjectTypeCodes.Checked += TriggerMappingUpdate;
             StandardizeObjectTypeCodes.Unchecked += TriggerMappingUpdate;
+            UseMapFile.Checked += TriggerMappingUpdate;
+            UseMapFile.Unchecked += TriggerMappingUpdate;
         }
 
         private void RemoveEventHandlers()
@@ -435,6 +439,8 @@ namespace SolutionPackager
             SortLocalizedStrings.Unchecked -= TriggerMappingUpdate;
             StandardizeObjectTypeCodes.Checked -= TriggerMappingUpdate;
             StandardizeObjectTypeCodes.Unchecked -= TriggerMappingUpdate;
+            UseMapFile.Checked -= TriggerMappingUpdate;
+            UseMapFile.Unchecked -= TriggerMappingUpdate;
         }
 
         private void SolutionList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

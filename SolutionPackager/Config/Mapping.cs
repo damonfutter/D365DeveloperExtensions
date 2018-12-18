@@ -47,6 +47,7 @@ namespace SolutionPackager.Config
                     existingSolutionPackageConfig.localize = solutionPackageConfig.localize;
                     existingSolutionPackageConfig.sortLocalizedStrings = solutionPackageConfig.sortLocalizedStrings;
                     existingSolutionPackageConfig.standardizeObjectTypeCodes = solutionPackageConfig.standardizeObjectTypeCodes;
+                    existingSolutionPackageConfig.useMapFile = solutionPackageConfig.useMapFile;
                 }
             }
 

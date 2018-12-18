@@ -57,6 +57,7 @@ namespace D365DeveloperExtensions.Core.Models
         public bool localize { get; set; }
         public bool sortLocalizedStrings { get; set; }
         public bool standardizeObjectTypeCodes { get; set; }
+        public bool useMapFile { get; set; }
     }
 
     public class SolutionPackageMap
