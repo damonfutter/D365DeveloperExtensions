@@ -69,6 +69,7 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="spkl.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="D365DexEv.pkgdef">

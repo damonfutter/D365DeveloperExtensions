@@ -686,7 +686,7 @@ namespace SolutionPackager
                     MessageBox.Show(Resource.MessageBox_ErrorExtractingSolution);
 
                 var fixers = new List<PostUnpack.IDocFixer>();
-                if (unpackSettings.Localize && unpackSettings.SortLocalizedStrings)
+                if (unpackSettings.SortLocalizedStrings)
                 {
                     fixers.Add(new PostUnpack.LocalizedStringSorter());
                 }
