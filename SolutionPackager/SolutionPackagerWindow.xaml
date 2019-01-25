@@ -113,9 +113,10 @@
                             <Label x:Name="SortLocalizedStringsLabel" Grid.Column="0" Grid.Row="9" Content="{x:Static resources:Resource.SolutionPackager_SortLocalizedStrings_Label_Content}"/>
                             <CheckBox x:Name="SortLocalizedStrings" Grid.Column="1" Grid.Row="9" Margin="5,5,0,0" Width="20" HorizontalAlignment="Left" 
                                   IsThreeState="False" IsEnabled="False" />
-                            <Label x:Name="StandardizeObjectTypeCodesLabel" Grid.Column="0" Grid.Row="10" Content="{x:Static resources:Resource.SolutionPackager_StandardizeObjectTypeCodes_Label_Content}"/>
+                            <Label x:Name="StandardizeObjectTypeCodesLabel" Grid.Column="0" Grid.Row="10" Content="{x:Static resources:Resource.SolutionPackager_StandardizeObjectTypeCodes_Label_Content}" Visibility="Collapsed"/>
                             <CheckBox x:Name="StandardizeObjectTypeCodes" Grid.Column="1" Grid.Row="10" Margin="5,5,0,0" Width="20" HorizontalAlignment="Left" 
-                                  IsThreeState="False" IsEnabled="False" />
+                                  IsThreeState="False" IsEnabled="False" Visibility="Collapsed" />
+                            <Label x:Name="WarningIgnoringForiegnLanguages" Grid.Column="1" Grid.Row="10" Content="WARNING: This version removes all foreign languages" Foreground="Red" />
                             <Label x:Name="PackOptionsLabel" Grid.Column="0" Grid.Row="11" FontWeight="Bold" 
                                Content="{x:Static resources:Resource.SolutionPackager_PackOptionsLabel_Label_Content}" />
                             <Label x:Name="SolutionNameLabel" Grid.Column="0" Grid.Row="12" HorizontalAlignment="Left" VerticalAlignment="Top" 

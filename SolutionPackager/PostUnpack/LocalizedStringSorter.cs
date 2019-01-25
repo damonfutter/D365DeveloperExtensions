@@ -34,7 +34,12 @@ namespace SolutionPackager.PostUnpack
                 elementsToSort.Remove();
                 sorted.ForEach(e =>
                 {
-                    x.Add(e);
+#warning remove this or make it a config option
+                    // Use these commented out lines if you want to remove everything except english
+                    if (e.Attribute(nameOfAttributeToSortBy).Value == "1033")
+                    {
+                        x.Add(e);
+                    }
                 });
             });
         }
