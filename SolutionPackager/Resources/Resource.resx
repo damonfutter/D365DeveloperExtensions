@@ -327,4 +327,10 @@
   <data name="SolutionPackager_StandardizeObjectTypeCodes_Label_Content" xml:space="preserve">
     <value>Standardize Object Type Codes?</value>
   </data>
+  <data name="SolutionPackager_MapPluginTypeIds_Label_Content" xml:space="preserve">
+    <value>Map Plugin Type IDs?</value>
+  </data>
+  <data name="SolutionPackager_MapPluginTypeIds_Warning_Content" xml:space="preserve">
+    <value>Manual config required in spkl.json file</value>
+  </data>
 </root>

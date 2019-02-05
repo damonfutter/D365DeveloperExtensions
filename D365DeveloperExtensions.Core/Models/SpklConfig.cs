@@ -58,12 +58,21 @@ namespace D365DeveloperExtensions.Core.Models
         public bool sortLocalizedStrings { get; set; }
         public bool standardizeObjectTypeCodes { get; set; }
         public bool useMapFile { get; set; }
+        public bool mapPluginTypeIds { get; set; }
+        public List<PluginTypeIdMap> pluginTypeIdMaps { get; set; }
     }
+
 
     public class SolutionPackageMap
     {
         public string map { get; set; }
         public string from { get; set; }
         public string to { get; set; }
+    }
+
+    public class PluginTypeIdMap
+    {
+        public string assemblyQualifiedName { get; set; }
+        public string pluginTypeId { get; set; }
     }
 }

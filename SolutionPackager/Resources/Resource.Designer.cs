@@ -538,6 +538,24 @@ namespace SolutionPackager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map Plugin Type IDs?.
+        /// </summary>
+        public static string SolutionPackager_MapPluginTypeIds_Label_Content {
+            get {
+                return ResourceManager.GetString("SolutionPackager_MapPluginTypeIds_Label_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manual config required in spkl.json file.
+        /// </summary>
+        public static string SolutionPackager_MapPluginTypeIds_Warning_Content {
+            get {
+                return ResourceManager.GetString("SolutionPackager_MapPluginTypeIds_Warning_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Package Folder.
         /// </summary>
         public static string SolutionPackager_PackageFolderLabel_Label_Content {

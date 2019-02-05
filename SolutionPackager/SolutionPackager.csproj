@@ -161,6 +161,7 @@
     <Compile Include="Packager.cs" />
     <Compile Include="PostUnpack\FileEnumerator.cs" />
     <Compile Include="PostUnpack\IDocFixer.cs" />
+    <Compile Include="PostUnpack\PluginTypeIdMapper.cs" />
     <Compile Include="PostUnpack\LocalizedStringSorter.cs" />
     <Compile Include="PostUnpack\ObjectTypeCodeFixer.cs" />
     <Compile Include="ProjectFolderHelper.cs" />
