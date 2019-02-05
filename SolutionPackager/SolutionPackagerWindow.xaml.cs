@@ -40,6 +40,7 @@ namespace SolutionPackager
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private ObservableCollection<CrmSolution> _solutionData;
         private ObservableCollection<string> _projectFolders;
+        private List<PluginTypeIdMap> _pluginTypeIdMaps;
 
         #endregion
 
@@ -224,6 +225,7 @@ namespace SolutionPackager
             Localize.IsEnabled = enabled;
             SortLocalizedStrings.IsEnabled = enabled;
             StandardizeObjectTypeCodes.IsEnabled = enabled;
+            MapPluginTypeIds.IsEnabled = enabled;
             SolutionName.IsEnabled = enabled;
             VersionMajor.IsEnabled = enabled;
             VersionMinor.IsEnabled = enabled;
@@ -294,6 +296,7 @@ namespace SolutionPackager
             SortLocalizedStrings.IsChecked = solutionPackageConfig.sortLocalizedStrings;
             StandardizeObjectTypeCodes.IsChecked = solutionPackageConfig.standardizeObjectTypeCodes;
             UseMapFile.IsChecked = solutionPackageConfig.useMapFile;
+            MapPluginTypeIds.IsChecked = solutionPackageConfig.mapPluginTypeIds;
 
             PackageSolution.IsEnabled = SolutionXml.SolutionXmlExists(ConnPane.SelectedProject, projectFolder);
             if (PackageSolution.IsEnabled)
@@ -407,7 +410,8 @@ namespace SolutionPackager
                 localize = (bool)Localize.IsChecked,
                 sortLocalizedStrings = (bool)SortLocalizedStrings.IsChecked,
                 standardizeObjectTypeCodes = (bool)StandardizeObjectTypeCodes.IsChecked,
-                useMapFile = (bool)UseMapFile.IsChecked
+                useMapFile = (bool)UseMapFile.IsChecked,
+                mapPluginTypeIds = (bool)MapPluginTypeIds.IsChecked
             };
         }
 
@@ -425,6 +429,8 @@ namespace SolutionPackager
             StandardizeObjectTypeCodes.Unchecked += TriggerMappingUpdate;
             UseMapFile.Checked += TriggerMappingUpdate;
             UseMapFile.Unchecked += TriggerMappingUpdate;
+            MapPluginTypeIds.Checked += TriggerMappingUpdate;
+            MapPluginTypeIds.Unchecked += TriggerMappingUpdate;
         }
 
         private void RemoveEventHandlers()
@@ -441,6 +447,8 @@ namespace SolutionPackager
             StandardizeObjectTypeCodes.Unchecked -= TriggerMappingUpdate;
             UseMapFile.Checked -= TriggerMappingUpdate;
             UseMapFile.Unchecked -= TriggerMappingUpdate;
+            MapPluginTypeIds.Checked -= TriggerMappingUpdate;
+            MapPluginTypeIds.Unchecked -= TriggerMappingUpdate;
         }
 
         private void SolutionList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -480,6 +488,7 @@ namespace SolutionPackager
 
             GetProjectFolders();
 
+            _pluginTypeIdMaps = solutionPackageConfig.pluginTypeIdMaps;
             SetControlStateForItem(solutionPackageConfig);
         }
 
@@ -581,7 +590,8 @@ namespace SolutionPackager
                 UseMapFile = UseMapFile.ReturnValue(),
                 Localize = Localize.ReturnValue(),
                 SortLocalizedStrings = SortLocalizedStrings.ReturnValue(),
-                StandardizeObjectTypeCodes = StandardizeObjectTypeCodes.ReturnValue()
+                StandardizeObjectTypeCodes = StandardizeObjectTypeCodes.ReturnValue(),
+                MapPluginTypeIds = MapPluginTypeIds.ReturnValue()
             };
 
             unpackSettings.ProjectPackageFolder = Path.Combine(unpackSettings.ProjectPath,
@@ -684,8 +694,13 @@ namespace SolutionPackager
 
                 if (!success)
                     MessageBox.Show(Resource.MessageBox_ErrorExtractingSolution);
-
+                
                 var fixers = new List<PostUnpack.IDocFixer>();
+                if (unpackSettings.MapPluginTypeIds)
+                {
+                    fixers.Add(new PostUnpack.PluginTypeIdMapper(_pluginTypeIdMaps));
+                }
+
                 if (unpackSettings.SortLocalizedStrings)
                 {
                     fixers.Add(new PostUnpack.LocalizedStringSorter());

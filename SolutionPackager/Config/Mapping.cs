@@ -48,6 +48,8 @@ namespace SolutionPackager.Config
                     existingSolutionPackageConfig.sortLocalizedStrings = solutionPackageConfig.sortLocalizedStrings;
                     existingSolutionPackageConfig.standardizeObjectTypeCodes = solutionPackageConfig.standardizeObjectTypeCodes;
                     existingSolutionPackageConfig.useMapFile = solutionPackageConfig.useMapFile;
+                    existingSolutionPackageConfig.mapPluginTypeIds = solutionPackageConfig.mapPluginTypeIds;
+                    existingSolutionPackageConfig.pluginTypeIdMaps = solutionPackageConfig.pluginTypeIdMaps;
                 }
             }
 

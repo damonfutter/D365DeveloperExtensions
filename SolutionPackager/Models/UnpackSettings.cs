@@ -23,5 +23,6 @@ namespace SolutionPackager.Models
         public bool Localize { get; set; }
         public bool SortLocalizedStrings { get; set; }
         public bool StandardizeObjectTypeCodes { get; set; }
+        public bool MapPluginTypeIds { get; set; }
     }
 }
