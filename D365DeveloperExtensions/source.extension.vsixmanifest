@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="CHD.D365DeveloperExtensions" Version="2.0.1932.0924" Language="en-US" Publisher="CHD" />
+        <Identity Id="CHD.D365DeveloperExtensions" Version="2.0.1973.1625" Language="en-US" Publisher="CHD" />
         <DisplayName>CHD - D365 Developer Extensions</DisplayName>
         <Description xml:space="preserve">CHD Version of Dynamics 365 Developer Extensions for Dynamics CRM/365 Customer Engagement versions 2011+</Description>
         <MoreInfo>https://github.com/damonfutter/D365DeveloperExtensions</MoreInfo>

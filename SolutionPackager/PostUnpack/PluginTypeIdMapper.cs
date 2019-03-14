@@ -15,34 +15,40 @@ namespace SolutionPackager.PostUnpack
 
         public PluginTypeIdMapper(List<PluginTypeIdMap> maps)
         {
-            pluginsToMap = maps.ToDictionary(m => m.assemblyQualifiedName, m => m.pluginTypeId);
+            if (maps != null)
+            {
+                pluginsToMap = maps.ToDictionary(m => m.assemblyQualifiedName, m => m.pluginTypeId);
+            }
         }
 
         public void Fix(XDocument doc)
         {
-            // If it's the PluginAssembly document, pull out all the PlugnTypeIds so we can use them later.
             string referenceGuid;
-            if (doc.Element("PluginAssembly") != null
-                && doc.Element("PluginAssembly").Element("PluginTypes") != null)
+            if (pluginsToMap != null)
             {
-                var xml = doc.Element("PluginAssembly").Element("PluginTypes").Descendants("PluginType");
-                xml.ToList().ForEach(x =>
+                // If it's the PluginAssembly document, pull out all the PlugnTypeIds so we can use them later.
+                if (doc.Element("PluginAssembly") != null
+                    && doc.Element("PluginAssembly").Element("PluginTypes") != null)
                 {
-                    if (pluginsToMap.TryGetValue(x.Attribute("AssemblyQualifiedName").Value, out referenceGuid))
+                    var xml = doc.Element("PluginAssembly").Element("PluginTypes").Descendants("PluginType");
+                    xml.ToList().ForEach(x =>
                     {
-                        discoveredPlugins[x.Attribute("PluginTypeId").Value] = referenceGuid;
-                        x.Attribute("PluginTypeId").Value = referenceGuid;
-                    }
-                });
-            }
+                        if (pluginsToMap.TryGetValue(x.Attribute("AssemblyQualifiedName").Value, out referenceGuid))
+                        {
+                            discoveredPlugins[x.Attribute("PluginTypeId").Value] = referenceGuid;
+                            x.Attribute("PluginTypeId").Value = referenceGuid;
+                        }
+                    });
+                }
 
-            // If it's a SdkMessageProcessingStep document, re-map its guid if necessary
-            if (doc.Element("SdkMessageProcessingStep") != null
-                && doc.Element("SdkMessageProcessingStep").Element("PluginTypeId") != null)
-            {
-                if (discoveredPlugins.TryGetValue(doc.Element("SdkMessageProcessingStep").Element("PluginTypeId").Value, out referenceGuid))
+                // If it's a SdkMessageProcessingStep document, re-map its guid if necessary
+                if (doc.Element("SdkMessageProcessingStep") != null
+                    && doc.Element("SdkMessageProcessingStep").Element("PluginTypeId") != null)
                 {
-                    doc.Element("SdkMessageProcessingStep").Element("PluginTypeId").Value = referenceGuid;
+                    if (discoveredPlugins.TryGetValue(doc.Element("SdkMessageProcessingStep").Element("PluginTypeId").Value, out referenceGuid))
+                    {
+                        doc.Element("SdkMessageProcessingStep").Element("PluginTypeId").Value = referenceGuid;
+                    }
                 }
             }
         }
