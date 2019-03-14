@@ -368,7 +368,7 @@ namespace SolutionPackager
                             message = $"{Resource.Message_TimoutExecutingSolutionPackager}: {command.Action}: {command.SolutionName}";
                         }
 
-                        ExceptionHandler.LogProcessError(Logger, message, errorDataReceived.ToString());
+                        ExceptionHandler.LogProcessError(Logger, message, string.Join(Environment.NewLine, errorDataReceived, output));
                         MessageBox.Show(message);
                     }
                 }

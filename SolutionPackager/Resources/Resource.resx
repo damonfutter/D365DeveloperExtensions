@@ -333,4 +333,10 @@
   <data name="SolutionPackager_MapPluginTypeIds_Warning_Content" xml:space="preserve">
     <value>Manual config required in spkl.json file</value>
   </data>
+  <data name="ErrorMessage_UnpackagingFailed" xml:space="preserve">
+    <value>Unpackaging failed</value>
+  </data>
+  <data name="ErrorMessage_PackagingFailed" xml:space="preserve">
+    <value>Packaging Failed</value>
+  </data>
 </root>

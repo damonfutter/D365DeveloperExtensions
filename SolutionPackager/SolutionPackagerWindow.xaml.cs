@@ -509,7 +509,15 @@ namespace SolutionPackager
 
         private void PackageSolution_OnClick(object sender, RoutedEventArgs e)
         {
-            PackageProcess();
+            try
+            {
+                PackageProcess();
+            }
+            catch (Exception ex)
+            {
+                OutputLogger.WriteToOutputWindow(ex.ToString(), MessageType.Error);
+                D365DeveloperExtensions.Core.StatusBar.SetStatusBarValue(Resource.ErrorMessage_PackagingFailed);
+            }
         }
 
         private void PackageProcess()
@@ -634,12 +642,20 @@ namespace SolutionPackager
             return Packager.CreatePackage(_dte, toolPath, packSettings, commandArgs);
         }
 
-        private void UnpackageSolution_OnClick(object sender, RoutedEventArgs e)
+        private async void UnpackageSolution_OnClick(object sender, RoutedEventArgs e)
         {
-            UnpackageProcess();
+            try
+            {
+                await UnpackageProcess();
+            }
+            catch (Exception ex)
+            {
+                OutputLogger.WriteToOutputWindow(ex.ToString(), MessageType.Error);
+                D365DeveloperExtensions.Core.StatusBar.SetStatusBarValue(Resource.ErrorMessage_UnpackagingFailed);
+            }
         }
 
-        private async void UnpackageProcess()
+        private async Task UnpackageProcess()
         {
             const bool MANAGED = true;
             try
@@ -671,7 +687,7 @@ namespace SolutionPackager
                 Task<string> getSecondSolution = null;
                 if (unpackSettings.SolutionPackageConfig.packagetype == "both")
                 {
-                    Overlay.ShowMessage(_dte, $"{Resource.Message_ConnectingGettingManagedSolution}...", vsStatusAnimation.vsStatusAnimationSync);
+                    Overlay.ShowMessage(_dte, $"{Resource.Message_ConnectingGettingManagedSolution}...");
                     getSecondSolution = Crm.Solution.GetSolutionFromCrm(
                         ConnPane.CrmService,
                         unpackSettings.CrmSolution,
@@ -693,35 +709,40 @@ namespace SolutionPackager
                 bool success = ExecuteExtract(unpackSettings);
 
                 if (!success)
+                {
                     MessageBox.Show(Resource.MessageBox_ErrorExtractingSolution);
-                
-                var fixers = new List<PostUnpack.IDocFixer>();
-                if (unpackSettings.MapPluginTypeIds)
-                {
-                    fixers.Add(new PostUnpack.PluginTypeIdMapper(_pluginTypeIdMaps));
                 }
-
-                if (unpackSettings.SortLocalizedStrings)
+                else
                 {
-                    fixers.Add(new PostUnpack.LocalizedStringSorter());
+
+                    var fixers = new List<PostUnpack.IDocFixer>();
+                    if (unpackSettings.MapPluginTypeIds)
+                    {
+                        fixers.Add(new PostUnpack.PluginTypeIdMapper(_pluginTypeIdMaps));
+                    }
+
+                    if (unpackSettings.SortLocalizedStrings)
+                    {
+                        fixers.Add(new PostUnpack.LocalizedStringSorter());
+                    }
+
+                    if (unpackSettings.StandardizeObjectTypeCodes)
+                    {
+                        fixers.Add(new PostUnpack.ObjectTypeCodeFixer());
+                    }
+
+                    if (fixers.Count > 0)
+                    {
+                        OutputLogger.WriteToOutputWindow($"{Resource.Message_Begin} {Resource.Message_PostProcessingFiles}", MessageType.Info);
+                        Overlay.ShowMessage(_dte, $"{Resource.Message_PostProcessingFiles}...");
+
+                        var fileEnum = new PostUnpack.FileEnumerator(fixers);
+                        fileEnum.FixAllFiles(unpackSettings.ProjectPackageFolder);
+                        OutputLogger.WriteToOutputWindow($"{Resource.Message_End} {Resource.Message_PostProcessingFiles}", MessageType.Info);
+                    }
+
+                    _dte.ExecuteCommand("File.SaveAll");
                 }
-
-                if (unpackSettings.StandardizeObjectTypeCodes)
-                {
-                    fixers.Add(new PostUnpack.ObjectTypeCodeFixer());
-                }
-
-                if (fixers.Count > 0)
-                {
-                    OutputLogger.WriteToOutputWindow($"{Resource.Message_Begin} {Resource.Message_PostProcessingFiles}", MessageType.Info);
-                    Overlay.ShowMessage(_dte, $"{Resource.Message_PostProcessingFiles}...");
-
-                    var fileEnum = new PostUnpack.FileEnumerator(fixers);
-                    fileEnum.FixAllFiles(unpackSettings.ProjectPackageFolder);
-                    OutputLogger.WriteToOutputWindow($"{Resource.Message_End} {Resource.Message_PostProcessingFiles}", MessageType.Info);
-                }
-
-                _dte.ExecuteCommand("File.SaveAll");
 
                 PackageSolution.IsEnabled = true;
                 SetFormVersionNumbers();
