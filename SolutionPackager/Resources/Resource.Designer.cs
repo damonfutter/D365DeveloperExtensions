@@ -187,6 +187,15 @@ namespace SolutionPackager.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Packaging Failed.
+        /// </summary>
+        public static string ErrorMessage_PackagingFailed {
+            get {
+                return ResourceManager.GetString("ErrorMessage_PackagingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please set the Solution Packager path in options.
         /// </summary>
         public static string ErrorMessage_SetSolutionPackagerPath {
@@ -237,6 +246,15 @@ namespace SolutionPackager.Resources {
         public static string ErrorMessage_UnexpectedErrorValidatingSolutionXml {
             get {
                 return ResourceManager.GetString("ErrorMessage_UnexpectedErrorValidatingSolutionXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpackaging failed.
+        /// </summary>
+        public static string ErrorMessage_UnpackagingFailed {
+            get {
+                return ResourceManager.GetString("ErrorMessage_UnpackagingFailed", resourceCulture);
             }
         }
         

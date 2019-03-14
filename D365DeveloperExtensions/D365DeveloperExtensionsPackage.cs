@@ -44,7 +44,7 @@ namespace D365DeveloperExtensions
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "2.0.1973.1625", IconResourceID = 400)] // Info on this package for Help/About
+    [InstalledProductRegistration("#110", "#112", "2.0.1973.2233", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(PluginDeployerHost))]
     [ProvideToolWindow(typeof(WebResourceDeployerHost))]
